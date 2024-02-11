@@ -4,8 +4,15 @@ from flask_restful import Api, Resource, reqparse
 import sql_requests_copy as sql_requests
 import psutil
 import mysql.connector
+import socket
 
 
+
+def getUserIpAdress():
+    hostname = socket.gethostname()
+    ## getting the IP address using socket.gethostbyname() method
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
 
 
 def check_mysqld_status():
@@ -129,7 +136,7 @@ class HelloWorld(Resource):
         ocena=args['grade']
 
         print(f"GRADE RECEIVED klasa: {klasa} ocena: {ocena}")
-
+            
         try:
             sql_requests.sql_grade_add(MYSQLdb,ocena,klasa)
         
@@ -147,7 +154,20 @@ api.add_resource(HelloWorld,"/grades")
 if __name__=="__main__":
     from waitress import serve
 
-    serve(app, host='192.168.0.248',port='5055')
+    print(f"ur local ip: {getUserIpAdress()}\n")
+
+    ip_address=input("ip: ")
+    user_port=str(input("\nport(above 5000): "))
+
+    if ip_address:
+        try:  
+            serve(app,host=ip_address,port=user_port)
+        except:
+            print(error)
+        
+     
+       
+    
     #app.run(host='192.168.0.248',port=5055,debug=False)
 
 
