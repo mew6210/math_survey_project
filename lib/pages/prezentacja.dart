@@ -1,9 +1,6 @@
-
-import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:program_ankiety_http/bgcolor.dart';
-
 import 'package:program_ankiety_http/chart/pie_chart.dart';
 import '../chart_container.dart';
 import 'package:http/http.dart' as http;
@@ -13,14 +10,13 @@ import 'package:program_ankiety_http/consts.dart';
 
 
 
-const String BASE="89.74.117.71:5055";
 
 
 
 class Prezentacja extends StatefulWidget {
   final String ip;
   final int port;
-  final String JSONpurpose="survey";
+
 
   Prezentacja({required this.ip, required this.port});
 
@@ -31,12 +27,12 @@ class Prezentacja extends StatefulWidget {
 class _prezentacja extends State<Prezentacja> {
   String typeofchart="piechart";
   String selectedValue = 'Klasa 1';
-  late Socket client;
+
   late TextEditingController messageController;
-  late TextEditingController secondMessageController;
-  late TextEditingController thirdMessageController;
-  bool isConnected = false;
-  List<String> messages = [];
+
+
+
+
   late String themevalue;
 
 
@@ -48,9 +44,9 @@ class _prezentacja extends State<Prezentacja> {
   @override
   void initState() {
     super.initState();
-    secondMessageController = TextEditingController();
+
     messageController = TextEditingController();
-    thirdMessageController = TextEditingController();
+
     getHTTPGrades();
     usertheme=randomTheme;
     themevalue="randomtheme";
@@ -126,8 +122,8 @@ class _prezentacja extends State<Prezentacja> {
 
   void clearInputs(){
     messageController.clear();
-    secondMessageController.clear();
-    thirdMessageController.clear();
+
+
     FocusScope.of(context).unfocus();
 
   }
@@ -194,9 +190,9 @@ class _prezentacja extends State<Prezentacja> {
 
   ChartContainer getchart(){
     switch(typeofchart){
-      case "piechart": return ChartContainer(title: 'Pie Chart', color: Color(0xfff0f0f0), chart: PieChartContent(valueTable: sortValueTable(valueTable, true),)); break;
-      case "kolumnowychart": return ChartContainer(title: 'Pie Chart', color: Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),)); break;
-      default: return ChartContainer(title: 'ErroredChart', color: Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "piechart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0), chart: PieChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "kolumnowychart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
+      default: return ChartContainer(title: 'ErroredChart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
     }
 
 
@@ -209,11 +205,7 @@ class _prezentacja extends State<Prezentacja> {
     switch(themevalue){
       case "randomtheme": usertheme=randomTheme; break;
       case "weighttheme": usertheme=weightTheme; break;
-
-
     }
-
-
   }
 
 
@@ -312,7 +304,7 @@ class _prezentacja extends State<Prezentacja> {
                             crossAxisAlignment: CrossAxisAlignment.center,
 
                             children:[
-                              Text("Ilość opini: "+valueTable.length.toString(),style: dataListStyle),
+                              Text("Ilość opini: ${valueTable.length}",style: dataListStyle),
                               Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
                               Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
                               Text("2-b",style: dataListStyle),

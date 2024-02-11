@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'chart/indicator.dart';
-import 'randomcolor.dart';
+
 class ChartContainer extends StatelessWidget {
   final Color color;
   final String title;

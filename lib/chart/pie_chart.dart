@@ -7,12 +7,7 @@ import 'package:flutter/widgets.dart';
 
 class PieChartContent extends StatelessWidget {
 
-   final Map<String, double> dataMap = {
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-  };
+
 
   final List<int> valueTable;
 
@@ -28,9 +23,9 @@ class PieChartContent extends StatelessWidget {
     return PieChart(
 
         PieChartData(
-        sectionsSpace: 0,
+        sectionsSpace: 2,
         centerSpaceRadius: 0,
-        startDegreeOffset: 255,
+        startDegreeOffset: 270,
         sections: getSectionData(MediaQuery.of(context).size.width*0.4,valueTable)
 
 
@@ -68,12 +63,6 @@ class BarChartContent extends StatelessWidget {
 
 
 
-  final Map<String, double> dataMap = {
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-  };
 
   final List<int> valueTable;
 
@@ -104,9 +93,6 @@ class BarChartContent extends StatelessWidget {
             sideTitles: SideTitles(interval:1)
 
             ),
-
-
-
 
             leftTitles: AxisTitles(
 

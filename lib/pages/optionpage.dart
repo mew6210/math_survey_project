@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:program_ankiety_http/pages/klasa_1.dart';
+import 'package:program_ankiety_http/pages/adding.dart';
 import '../bgcolor.dart';
 import 'prezentacja.dart';
 

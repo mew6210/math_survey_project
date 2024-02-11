@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:program_ankiety_http/bgcolor.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +13,6 @@ import 'package:http/http.dart' as http;
 class Klasa1 extends StatefulWidget {
   final String ip;
   final int port;
-  final String JSONpurpose="survey";
 
   Klasa1({required this.ip, required this.port});
 
@@ -28,18 +23,15 @@ class Klasa1 extends StatefulWidget {
 
 
 class _Klasa1 extends State<Klasa1> {
-  late Socket client;
+
   late TextEditingController messageController;
   late TextEditingController secondMessageController;
   late TextEditingController thirdMessageController;
-  bool isConnected = false;
-  StreamSubscription<List<int>>? _socketSubscription;
-  List<String> messages = [];
   late int klasa=1;
 
 
 
-  List<int> valueTable = [];
+
 
 
 
@@ -68,6 +60,32 @@ void submitGrade () async{
   String port=widget.port.toString();
 
   String baseUrl = "http://$login:$port";
+
+
+  String grade= messageController.text;
+
+
+
+  try {
+    int iGrade = int.parse(grade);
+    if(iGrade>10){
+      print("Error: Grade not valid!");
+      clearInputs();
+      return;
+    }
+    else if(iGrade<=0){
+      print("Error: Grade not valid!");
+      clearInputs();
+      return;
+    }
+  }
+  catch(error){
+    print(error);
+    return;
+  }
+
+
+
 
 
 
@@ -176,45 +194,6 @@ void submitGrade () async{
 
 
             ),
-
-
-
-
-            // Add a ListView to display received messages
-            /*
-            Expanded(
-
-              child: ListView.builder(
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    key: UniqueKey(), // Unique key for each message
-                    direction: DismissDirection.endToStart,
-                    onDismissed: (direction) {
-                      // Remove the dismissed message from the list
-                      messages.removeAt(index);
-                      setState(() {
-
-                      });
-                    },
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: ListTile(
-                      title: Text(messages[index]),
-                    ),
-                  );
-                },
-              ),
-            ),
-            */
-
 
 
 

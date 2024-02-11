@@ -1,10 +1,10 @@
 
-import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:program_ankiety_http/randomcolor.dart';
 import 'package:program_ankiety_http/theme.dart';
 import 'package:program_ankiety_http/consts.dart';
+import 'package:program_ankiety_http/chart/indicator.dart';
 
 extension EnhancedMap<K, V> on Map<K, V> {
   V? getOrDefaultOrNull(K key) {
@@ -83,6 +83,8 @@ List<PieChartSectionData> GetValues(List<int> valueTable,double screenWidth) {
       titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
       radius: radius,
       color: definedcolor,
+
+
     ));
   });
 
