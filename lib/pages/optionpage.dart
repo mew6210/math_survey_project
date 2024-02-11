@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:program_ankiety_http/pages/klasa_1.dart';
 import '../bgcolor.dart';
-
-import 'anymessagepage.dart';
-import 'addusesrpage.dart';
-
 import 'prezentacja.dart';
 
 
@@ -37,28 +33,6 @@ class _OptionScreen extends State<OptionScreen>{
   }
 
 
-  void gotoAnyMessagePanel() {
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AnyMessage(ip: widget.ip, port: widget.port),
-
-      ),
-    );
-  }
-
-
-  void gotoAddUserPanel(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddUserPage(ip: widget.ip, port: widget.port),
-
-      ),
-    );
-
-  }
 
 
 
