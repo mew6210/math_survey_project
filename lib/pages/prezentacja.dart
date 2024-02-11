@@ -64,11 +64,20 @@ class _prezentacja extends State<Prezentacja> {
     String baseUrl = "http://$login:$port";
     int classValue = getClassNumber();
 
+    var response;
+    String responsebody;
+    try{
+      response = await http.get(Uri.parse('$baseUrl/grades?class=$classValue'));
+      responsebody=response.body;
+    }
+    catch(error){
+      print("Server not responding");
+      responsebody="Server unresponsive";
+    }
 
 
-    var response = await http.get(Uri.parse('$baseUrl/grades?class=$classValue'));
 
-    String responsebody=response.body;
+
 
 
 
@@ -291,38 +300,38 @@ class _prezentacja extends State<Prezentacja> {
               getchart(),
 
 
-            Align(
-              alignment: Alignment.center,
-              child:ExpandablePanel(
-                header: Text("Dane",textAlign: TextAlign.center,style: dataListStyle),
-                collapsed: Text(""),
-                expanded:Align(
+              Align(
                   alignment: Alignment.center,
-                  child: Column(
-                      mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  child:ExpandablePanel(
+                      header: Text("Dane",textAlign: TextAlign.center,style: dataListStyle),
+                      collapsed: Text(""),
+                      expanded:Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
 
-                      children:[
-                        Text("Ilość opini: "+valueTable.length.toString(),style: dataListStyle),
-                        Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
-                        Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
-                        Text("2-b",style: dataListStyle),
-                        Text("3-c",style: dataListStyle),
-                        Text("4-d",style: dataListStyle),
-
-
-                      ]
-
-                  ),
-                )
-
+                            children:[
+                              Text("Ilość opini: "+valueTable.length.toString(),style: dataListStyle),
+                              Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
+                              Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
+                              Text("2-b",style: dataListStyle),
+                              Text("3-c",style: dataListStyle),
+                              Text("4-d",style: dataListStyle),
 
 
+                            ]
+
+                        ),
+                      )
 
 
+
+
+
+                  )
               )
-            )
-            ,
+              ,
 
 
             ],
