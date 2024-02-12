@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ChartContainer extends StatelessWidget {
   final Color color;
+
   final String title;
   final Widget chart;
 
@@ -12,6 +13,8 @@ class ChartContainer extends StatelessWidget {
     required this.title,
     required this.color,
     required this.chart,
+
+
 
 
 
@@ -30,7 +33,7 @@ class ChartContainer extends StatelessWidget {
 
         padding: EdgeInsets.fromLTRB(0, 10, 20, 10),
         decoration: BoxDecoration(
-          color: color,
+          color: Color.fromRGBO(232, 226, 226, 0.30196078431372547),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(

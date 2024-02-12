@@ -1,10 +1,43 @@
 
+import 'dart:core';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:program_ankiety_http/randomcolor.dart';
 import 'package:program_ankiety_http/theme.dart';
 import 'package:program_ankiety_http/consts.dart';
 import 'package:program_ankiety_http/chart/indicator.dart';
+
+
+
+
+
+List<Color> gradientColors (){
+
+
+  List<Color> l=[  usertheme.color1,
+    usertheme.color2,
+    usertheme.color3,
+    usertheme.color4,
+    usertheme.color5,
+    usertheme.color6,
+    usertheme.color7,
+    usertheme.color8,
+    usertheme.color9,
+    usertheme.color10,
+  ];
+
+
+  return l;
+}
+
+
+
+
+
+
+
+
 
 extension EnhancedMap<K, V> on Map<K, V> {
   V? getOrDefaultOrNull(K key) {
@@ -127,11 +160,17 @@ List<BarChartGroupData> getBarChartValues(List<int> valuetable) {
 
 
 BarChartGroupData generateGroupData(int x, int y) {
+  List<Color> gradientcolors=gradientColors();
   return BarChartGroupData(
     x: x,
 
     barRods: [
-      BarChartRodData(toY: y.toDouble()),
+      BarChartRodData(toY: y.toDouble(),
+        color: gradientcolors[x-1],
+
+
+      ),
+
     ],
   );
 }
@@ -174,6 +213,73 @@ double calculateMaxY(List<int> valuetable) {
 }
 
 
+
+
+
+List<LineChartBarData> getLineBarsData(List<int> valueTable){
+
+
+
+  List<LineChartBarData> l=lol(valueTable);
+
+
+  return l;
+
+
+}
+
+
+
+List<LineChartBarData> lol(valueTable){
+  List<Color> gradientcolors=gradientColors();
+  List<LineChartBarData> datalist=[];
+
+
+  Map<int, int> occurrencesMap = {};
+
+  // Count occurrences of each grade
+  for (int grade in valueTable) {
+    int count = occurrencesMap.containsKey(grade) ? occurrencesMap[grade]! + 1 : 1;
+    occurrencesMap[grade] = count;
+  }
+
+  List<FlSpot> spots = [];
+
+  // Populate spots list with x and y values from occurrencesMap
+  for (int i = 1; i <= 10; i++) {
+    int yValue = occurrencesMap.containsKey(i) ? occurrencesMap[i]! : 0;
+    spots.add(FlSpot(i.toDouble(), yValue.toDouble()));
+  }
+
+  // Add LineChartBarData with spots populated
+  datalist.add(LineChartBarData(
+    spots: spots,
+
+    gradient: LinearGradient(
+      colors:
+       gradientcolors.map((color)=>color.withOpacity(1)).toList(),
+
+
+    ),
+    belowBarData: BarAreaData(
+      show:true,
+      gradient:LinearGradient(
+        colors:gradientcolors.map((color)=>color.withOpacity(0.3)).toList(),
+      )
+    )
+  ));
+
+
+
+
+
+
+
+  return datalist;
+
+
+
+}
 
 
 

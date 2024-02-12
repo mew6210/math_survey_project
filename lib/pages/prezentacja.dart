@@ -6,6 +6,7 @@ import '../chart_container.dart';
 import 'package:http/http.dart' as http;
 import 'package:expandable/expandable.dart';
 import 'package:program_ankiety_http/consts.dart';
+import 'dart:math';
 
 
 
@@ -52,6 +53,10 @@ class _prezentacja extends State<Prezentacja> {
     themevalue="randomtheme";
 
   }
+
+
+
+
 
   void getHTTPGrades() async {
     String login=widget.ip;
@@ -148,6 +153,38 @@ class _prezentacja extends State<Prezentacja> {
   }
 
 
+  // Funkcja obliczająca wariancję
+  double calculateVariance(List<int> numbers) {
+    // Oblicz średnią arytmetyczną
+    double mean = numbers.reduce((a, b) => a + b) / numbers.length;
+
+    // Oblicz sumę kwadratów różnic między wartościami a średnią
+    double sumOfSquares = 0;
+    for (var number in numbers) {
+      sumOfSquares += pow(number - mean, 2);
+    }
+
+    // Oblicz wariancję jako średnią z sumy kwadratów różnic
+    double variance = sumOfSquares / numbers.length;
+
+    return variance;
+  }
+
+// Funkcja obliczająca odchylenie standardowe
+  double calculateStandardDeviation(List<int> numbers) {
+    // Oblicz wariancję za pomocą wcześniej zdefiniowanej funkcji
+    double variance = calculateVariance(numbers);
+
+    // Oblicz pierwiastek kwadratowy z wariancji
+    double standardDeviation = sqrt(variance);
+
+    return standardDeviation;
+  }
+
+
+
+
+
 
   void askForGrades(){
 
@@ -190,8 +227,9 @@ class _prezentacja extends State<Prezentacja> {
 
   ChartContainer getchart(){
     switch(typeofchart){
-      case "piechart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0), chart: PieChartContent(valueTable: sortValueTable(valueTable, true),));
-      case "kolumnowychart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "piechart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0) , chart: PieChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "kolumnowychart": return ChartContainer(title: 'Bar Chart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "linechart": return ChartContainer(title: 'Line-chart',color: const Color(0xfff0f0f0f),chart: LineChartContent(valueTable: sortValueTable(valueTable, true),));
       default: return ChartContainer(title: 'ErroredChart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
     }
 
@@ -248,7 +286,7 @@ class _prezentacja extends State<Prezentacja> {
                     typeofchart = newValue!;
                   });
                 },
-                items: <String>['piechart', 'kolumnowychart', 'scatterchart']
+                items: <String>['piechart', 'kolumnowychart', 'linechart']
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -307,9 +345,9 @@ class _prezentacja extends State<Prezentacja> {
                               Text("Ilość opini: ${valueTable.length}",style: dataListStyle),
                               Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
                               Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
-                              Text("2-b",style: dataListStyle),
-                              Text("3-c",style: dataListStyle),
-                              Text("4-d",style: dataListStyle),
+                              Text("Wariancja: ${calculateVariance(valueTable)}",style: dataListStyle),
+                              Text("Odchylenie standardowe: ${calculateStandardDeviation(valueTable)}",style: dataListStyle),
+                              Text("Mediana: 5-6",style: dataListStyle),
 
 
                             ]
