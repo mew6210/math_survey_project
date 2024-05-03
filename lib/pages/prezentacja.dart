@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:program_ankiety_http/bgcolor.dart';
 import 'package:program_ankiety_http/chart/pie_chart.dart';
 import '../chart_container.dart';
@@ -155,6 +156,10 @@ class _prezentacja extends State<Prezentacja> {
 
   // Funkcja obliczająca wariancję
   double calculateVariance(List<int> numbers) {
+    double variance;
+    try{
+
+
     // Oblicz średnią arytmetyczną
     double mean = numbers.reduce((a, b) => a + b) / numbers.length;
 
@@ -165,7 +170,11 @@ class _prezentacja extends State<Prezentacja> {
     }
 
     // Oblicz wariancję jako średnią z sumy kwadratów różnic
-    double variance = sumOfSquares / numbers.length;
+    variance = sumOfSquares / numbers.length;
+    }
+    catch(error){
+      variance=0;
+    }
 
     return variance;
   }
@@ -227,9 +236,9 @@ class _prezentacja extends State<Prezentacja> {
 
   ChartContainer getchart(){
     switch(typeofchart){
-      case "piechart": return ChartContainer(title: 'Pie Chart', color: const Color(0xfff0f0f0) , chart: PieChartContent(valueTable: sortValueTable(valueTable, true),));
-      case "kolumnowychart": return ChartContainer(title: 'Bar Chart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
-      case "linechart": return ChartContainer(title: 'Line-chart',color: const Color(0xfff0f0f0f),chart: LineChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "piechart": return ChartContainer(title: selectedValue, color: const Color(0xfff0f0f0) , chart: PieChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "kolumnowychart": return ChartContainer(title: selectedValue, color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
+      case "linechart": return ChartContainer(title: selectedValue,color: const Color(0xfff0f0f0f),chart: LineChartContent(valueTable: sortValueTable(valueTable, true),));
       default: return ChartContainer(title: 'ErroredChart', color: const Color(0xfff0f0f0), chart: BarChartContent(valueTable: sortValueTable(valueTable, true),));
     }
 
@@ -256,115 +265,213 @@ class _prezentacja extends State<Prezentacja> {
       appBar: AppBar(
         title: Text("Prezentacja"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
+      body: RawKeyboardListener(
+        focusNode:FocusNode(),
+        autofocus:true,
 
-              DropdownButton<String>(
-                value: selectedValue,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedValue = newValue!;
-                    getHTTPGrades();
-                  });
-                },
-                items: <String>['Klasa 1', 'Klasa 2', 'Klasa 3', 'Klasa 4', 'Klasa 5']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+        onKey: (event){
+          if(event.isKeyPressed(LogicalKeyboardKey.digit1)){
+            selectedValue="Klasa 1";
+            getHTTPGrades();
+            setState(() {
 
-              DropdownButton<String>(
-                value: typeofchart,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    typeofchart = newValue!;
-                  });
-                },
-                items: <String>['piechart', 'kolumnowychart', 'linechart']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+            });
 
-              SizedBox(height: 16),
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.digit2)){
+            selectedValue="Klasa 2";
+            getHTTPGrades();
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.digit3)){
+            selectedValue="Klasa 3";
+            getHTTPGrades();
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.digit4)){
+            selectedValue="Klasa 4";
+            getHTTPGrades();
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.digit5)){
+            selectedValue="Klasa 5";
+            getHTTPGrades();
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.keyQ)){
+            typeofchart="piechart";
+
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.keyW)){
+            typeofchart="kolumnowychart";
+
+            setState(() {
+
+            });
+
+          }
+          if(event.isKeyPressed(LogicalKeyboardKey.keyE)){
+            typeofchart="linechart";
+
+            setState(() {
+
+            });
+
+          }
 
 
-              DropdownButton<String>(
-                value: themevalue,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    themevalue = newValue!;
-                    resolveTheme();
-                  });
-                },
-                items: <String>['randomtheme', 'weighttheme']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+          if(event.isKeyPressed(LogicalKeyboardKey.keyA)){
+            themevalue="randomtheme";
+
+            setState(() {
+              resolveTheme();
+            });
+
+          }
+
+
+          if(event.isKeyPressed(LogicalKeyboardKey.keyS)){
+            themevalue="weighttheme";
+
+            setState(() {
+              resolveTheme();
+            });
+
+          }
 
 
 
 
+        },
 
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: askForGrades,
-                  child: Icon(Icons.refresh),
+
+
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+
+                DropdownButton<String>(
+                  value: selectedValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedValue = newValue!;
+                      getHTTPGrades();
+                    });
+                  },
+                  items: <String>['Klasa 1', 'Klasa 2', 'Klasa 3', 'Klasa 4', 'Klasa 5']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
-              ),
 
-              getchart(),
+                DropdownButton<String>(
+                  value: typeofchart,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      typeofchart = newValue!;
+                    });
+                  },
+                  items: <String>['piechart', 'kolumnowychart', 'linechart']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
 
-
-              Align(
-                  alignment: Alignment.center,
-                  child:ExpandablePanel(
-                      header: Text("Dane",textAlign: TextAlign.center,style: dataListStyle),
-                      collapsed: Text(""),
-                      expanded:Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                            mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-
-                            children:[
-                              Text("Ilość opini: ${valueTable.length}",style: dataListStyle),
-                              Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
-                              Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
-                              Text("Wariancja: ${calculateVariance(valueTable)}",style: dataListStyle),
-                              Text("Odchylenie standardowe: ${calculateStandardDeviation(valueTable)}",style: dataListStyle),
-                              Text("Mediana: 5-6",style: dataListStyle),
+                SizedBox(height: 16),
 
 
-                            ]
+                DropdownButton<String>(
+                  value: themevalue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      themevalue = newValue!;
+                      resolveTheme();
+                    });
+                  },
+                  items: <String>['randomtheme', 'weighttheme']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
 
-                        ),
-                      )
+
+
+
+
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: ElevatedButton(
+                    onPressed: askForGrades,
+                    child: Icon(Icons.refresh),
+                  ),
+                ),
+
+                getchart(),
+
+
+                Align(
+                    alignment: Alignment.center,
+                    child:ExpandablePanel(
+                        header: Text("Dane",textAlign: TextAlign.center,style: dataListStyle),
+                        collapsed: Text(""),
+                        expanded:Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                              mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+
+                              children:[
+                                Text("Ilość opini: ${valueTable.length}",style: dataListStyle),
+                                Text("Średnia: ${calculateAverage(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
+                                Text("Dominanta: ${findDominantValue(valueTable)}",textAlign: TextAlign.center,style: dataListStyle),
+                                Text("Wariancja: ${calculateVariance(valueTable)}",style: dataListStyle),
+                                Text("Odchylenie standardowe: ${calculateStandardDeviation(valueTable)}",style: dataListStyle),
+                                Text("Mediana: 5-6",style: dataListStyle),
+
+
+                              ]
+
+                          ),
+                        )
 
 
 
 
 
-                  )
-              )
-              ,
+                    )
+                )
+                ,
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

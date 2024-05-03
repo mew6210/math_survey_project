@@ -159,11 +159,16 @@ if __name__=="__main__":
     ip_address=input("ip: ")
     user_port=str(input("\nport(above 5000): "))
 
-    if ip_address:
+    while ip_address:
         try:  
-            serve(app,host=ip_address,port=user_port)
+            while True:
+                serve(app,host=ip_address,port=user_port)
         except:
             print(error)
+            
+            continue
+            
+            
         
      
        
